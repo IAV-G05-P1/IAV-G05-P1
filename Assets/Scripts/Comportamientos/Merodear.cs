@@ -26,18 +26,28 @@ namespace UCM.IAV.Movimiento
         [SerializeField]
         float tiempoMinimo = 1.0f;
 
-        float t = 3.0f;
-        float actualT = 2.0f;
+        float t =0;
+        float actualT = 0.0f;
 
         ComportamientoDireccion lastDir = new ComportamientoDireccion();
 
         public override ComportamientoDireccion GetComportamientoDireccion(){
             // IMPLEMENTAR merodear
-            tiempoMinimo = 1.0f; // por ejemplo
-            tiempoMaximo = 2.0f; // por ejemplo
-            actualT = 2.0f; // por ejemplo
-            t = 3.0f; // por ejemplo    
-            return new ComportamientoDireccion();
+            ComportamientoDireccion CompDir = new ComportamientoDireccion();
+            CompDir.lineal =agente.velocidad;  
+
+
+            if (actualT >= t)
+            {
+                CompDir.lineal = new Vector3(Random.RandomRange(-2,2), Random.RandomRange(-2, 2), Random.RandomRange(-2, 2)).normalized;
+                Debug.Log(CompDir.lineal.ToString());
+                t = Random.RandomRange(tiempoMinimo,tiempoMaximo); // por ejemplo   
+                actualT = 0;
+            }
+
+            //FINAL DE LA IMPLEMENTAION
+            actualT += Time.deltaTime; // por ejemplo 
+            return CompDir;
         }
 
     }

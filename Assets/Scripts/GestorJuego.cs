@@ -28,6 +28,7 @@ namespace UCM.IAV.Movimiento
         [SerializeField]
         GameObject rataPrefab = null;
 
+
         // textos UI
         [SerializeField]
         Text fRText;   
