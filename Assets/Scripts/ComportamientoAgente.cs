@@ -34,6 +34,10 @@ namespace UCM.IAV.Movimiento
         /// Agente que hace uso del comportamiento
         /// </summary>
         protected Agente agente;
+        ///<summary>
+        /// Referencia al propio transform
+        ///</summary>
+        protected Transform miTransform;
 
         /// <summary>
         /// Al despertar, establecer el agente que hará uso del comportamiento

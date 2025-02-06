@@ -9,6 +9,8 @@
    Contacto: email@federicopeinado.com
 */
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.TextCore.Text;
 
 namespace UCM.IAV.Movimiento
 {
@@ -35,13 +37,36 @@ namespace UCM.IAV.Movimiento
 
         // El tiempo en el que conseguir la aceleracion objetivo
         float timeToTarget = 0.1f;
+
         public override ComportamientoDireccion GetComportamientoDireccion()
         {
-            // IMPLEMENTAR llegada
-            timeToTarget = 0.1f; //por ejemplo
-            return new ComportamientoDireccion();
+            ComportamientoDireccion result = new ComportamientoDireccion();
+            result.lineal = objetivo.transform.position - miTransform.position;
+
+            if (result.lineal.magnitude < distancia)
+            {
+                result = new ComportamientoDireccion();
+                return result;
+            }
+            result.lineal /= timeToTarget;
+
+            if (result.lineal.magnitude < agente.velocidadMax)
+            {
+                result.lineal.Normalize();
+                result.lineal *= agente.velocidadMax;
+            }
+
+            //Quaternion paco = Quaternion.Euler(result.lineal.x, result.lineal.y, result.lineal.z);
+            miTransform.rotation = Quaternion.LookRotation(result.lineal, Vector3.up);
+                //Quaternion.Lerp(miTransform.rotation, paco, 10 * Time.deltaTime);
+
+            return result;
         }
 
+        void Start()
+        {
+            miTransform = transform;
+        }
 
     }
 }
