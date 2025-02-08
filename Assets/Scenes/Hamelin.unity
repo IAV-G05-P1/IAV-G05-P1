@@ -4781,6 +4781,11 @@ PrefabInstance:
       propertyPath: distancia
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2923401854454304815, guid: 5ff744207c6a5044ab297c8fc4814fc0,
+        type: 3}
+      propertyPath: rRalentizado
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 3861295050334874256, guid: 5ff744207c6a5044ab297c8fc4814fc0,
         type: 3}
       propertyPath: m_Name
@@ -4799,7 +4804,7 @@ PrefabInstance:
     - target: {fileID: 3861295050334874258, guid: 5ff744207c6a5044ab297c8fc4814fc0,
         type: 3}
       propertyPath: combinarPorPrioridad
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4529992095953285162, guid: 5ff744207c6a5044ab297c8fc4814fc0,
         type: 3}

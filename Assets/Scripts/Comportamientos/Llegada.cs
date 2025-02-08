@@ -41,24 +41,37 @@ namespace UCM.IAV.Movimiento
         public override ComportamientoDireccion GetComportamientoDireccion()
         {
             ComportamientoDireccion result = new ComportamientoDireccion();
-            result.lineal = objetivo.transform.position - miTransform.position;
+            Vector3 direccion = objetivo.transform.position - miTransform.position;
 
-            if (result.lineal.magnitude < distancia)
+            if (direccion.magnitude < distancia)
             {
-                result = new ComportamientoDireccion();
                 return result;
             }
-            result.lineal /= timeToTarget;
 
-            if (result.lineal.magnitude < agente.velocidadMax)
+            float velObjetivo;
+
+            if (direccion.magnitude > rRalentizado)
             {
-                result.lineal.Normalize();
-                result.lineal *= agente.velocidadMax;
+                velObjetivo = agente.velocidadMax;
+            } 
+            else
+            {
+                velObjetivo = agente.velocidadMax * direccion.magnitude / rRalentizado;
             }
 
-            //Quaternion paco = Quaternion.Euler(result.lineal.x, result.lineal.y, result.lineal.z);
-            miTransform.rotation = Quaternion.LookRotation(result.lineal, Vector3.up);
-                //Quaternion.Lerp(miTransform.rotation, paco, 10 * Time.deltaTime);
+            direccion.Normalize();
+            direccion *= velObjetivo;
+
+            Vector3 aceleracion = direccion - agente.velocidad;
+            direccion /= timeToTarget;
+
+            if (aceleracion.magnitude > agente.aceleracionMax)
+            {
+                aceleracion.Normalize();
+                aceleracion *= agente.aceleracionMax;
+            }
+
+            result.lineal = aceleracion;
 
             return result;
         }
