@@ -22,8 +22,19 @@ namespace UCM.IAV.Movimiento
         /// <returns></returns>
         public override ComportamientoDireccion GetComportamientoDireccion()
         {
-            // IMPLEMENTAR HUIR
-            return new ComportamientoDireccion();
+            ComportamientoDireccion resultado = new ComportamientoDireccion();
+
+            resultado.lineal = miTransform.position - objetivo.transform.position;
+
+            resultado.lineal.Normalize();
+            resultado.lineal *= agente.aceleracionMax;
+
+            return resultado;
         }
+        void Start()
+        {
+            miTransform = transform;
+        }
+
     }
 }
