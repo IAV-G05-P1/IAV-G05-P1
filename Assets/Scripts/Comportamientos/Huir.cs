@@ -48,9 +48,10 @@ namespace UCM.IAV.Movimiento
 
                     resultado.lineal += aux.lineal;
                 }
-            }        
+            }
 
-            
+            resultado.lineal.Normalize();
+            resultado.lineal *= agente.aceleracionMax;
 
             return resultado;
         }
@@ -81,7 +82,7 @@ namespace UCM.IAV.Movimiento
 
             trigger = transform.gameObject.AddComponent<SphereCollider>();
             trigger.isTrigger = true;
-            trigger.enabled = false;
+            trigger.enabled = true;
             trigger.radius = radio;
         }
 

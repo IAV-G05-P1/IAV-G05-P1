@@ -34,16 +34,18 @@ namespace UCM.IAV.Movimiento
         public override ComportamientoDireccion GetComportamientoDireccion(){
             // IMPLEMENTAR merodear
             ComportamientoDireccion CompDir = new ComportamientoDireccion();
-            CompDir.lineal =agente.velocidad;  
+            CompDir.lineal = agente.velocidad;  
 
 
             if (actualT >= t)
             {
-                CompDir.lineal = new Vector3(Random.RandomRange(-2,2), Random.RandomRange(-2, 2), Random.RandomRange(-2, 2)).normalized;
+                CompDir.lineal = new Vector3(Random.Range(-1,2), 0, Random.Range(-1, 2));
                 Debug.Log(CompDir.lineal.ToString());
-                t = Random.RandomRange(tiempoMinimo,tiempoMaximo); // por ejemplo   
+                t = Random.Range(tiempoMinimo,tiempoMaximo); // por ejemplo   
                 actualT = 0;
             }
+
+            CompDir.lineal *= agente.aceleracionMax;
 
             //FINAL DE LA IMPLEMENTAION
             actualT += Time.deltaTime; // por ejemplo 
