@@ -12,6 +12,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.Experimental.GraphView;
 
 namespace UCM.IAV.Movimiento
 {
@@ -35,11 +36,33 @@ namespace UCM.IAV.Movimiento
 
         private GameObject[] targets;
 
+        float distance;
+
+        [SerializeField]
+        float maxAcceleration;
+
 
         public override ComportamientoDireccion GetComportamientoDireccion()
         {
+            ComportamientoDireccion result = new ComportamientoDireccion();
+
+            for (int i = 0; i < targets.Length; i++)
+            {
+                Vector3 direccion = targets[i].transform.position - miTransform.position;
+                distance = direccion.magnitude;
+
+                if (distance < umbral)
+                {
+                    float strength = float.MinValue(decayCoefficient / (distance * distance), maxAcceleration);
+                }
+            }
             // IMPLEMENTAR separación
             return new ComportamientoDireccion();
+        }
+
+        void Start()
+        {
+            miTransform = transform;
         }
     }
 }
