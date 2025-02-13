@@ -51,12 +51,12 @@ namespace UCM.IAV.Movimiento
             if (Input.GetKeyDown(KeyCode.Space) && !isActive)
             {
                 // activamos particulas
-                //activateParticle(ref particleSuelo, ref efectoParticulaSuelo);               
-                //activateParticle(ref particleAire, ref efectoParticulaAire);               
+                activateParticle(ref particleSuelo, ref efectoParticulaSuelo);               
+                activateParticle(ref particleAire, ref efectoParticulaAire);               
                 
                 // establecemos su escala y rotacion local
-                //particleSuelo.transform.localScale = new Vector3(radio * 2, radio * 2, radio * 2);
-                //particleSuelo.transform.localRotation = Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
+                particleSuelo.transform.localScale = new Vector3(radio * 2, radio * 2, radio * 2);
+                particleSuelo.transform.localRotation = Quaternion.AngleAxis(90, new Vector3(1, 0, 0));
 
                 isActive = true; // activamos el trigger
                 trigger.enabled = true;
@@ -68,8 +68,8 @@ namespace UCM.IAV.Movimiento
                 isActive = false; // activamos el trigger
                 trigger.enabled = false;
 
-                //destroyParticle(ref particleAire);
-                //destroyParticle(ref particleSuelo);
+                destroyParticle(ref particleAire);
+                destroyParticle(ref particleSuelo);
 
                 // limpiamos la lista de ratas a las que le afecta el seguir al flautista
                 foreach (GameObject rat in rats)

@@ -40,7 +40,6 @@ namespace UCM.IAV.Movimiento
             if (actualT >= t)
             {
                 CompDir.lineal = new Vector3(Random.Range(-1,2), 0, Random.Range(-1, 2));
-                Debug.Log(CompDir.lineal.ToString());
                 t = Random.Range(tiempoMinimo,tiempoMaximo); // por ejemplo   
                 actualT = 0;
             }

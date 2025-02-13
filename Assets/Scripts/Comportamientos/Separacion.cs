@@ -34,35 +34,68 @@ namespace UCM.IAV.Movimiento
         [SerializeField]
         float decayCoefficient;
 
-        private GameObject[] targets;
+        public List<GameObject> targets = new List<GameObject>();
 
         float distance;
 
-        [SerializeField]
         float maxAcceleration;
+
+
+        public float radio = 2f;
+
+        private SphereCollider trigger;
 
 
         public override ComportamientoDireccion GetComportamientoDireccion()
         {
             ComportamientoDireccion result = new ComportamientoDireccion();
 
-            for (int i = 0; i < targets.Length; i++)
+            foreach (GameObject rat in targets)
             {
-                Vector3 direccion = targets[i].transform.position - miTransform.position;
+                Vector3 direccion = miTransform.position - rat.transform.position;
                 distance = direccion.magnitude;
 
                 if (distance < umbral)
                 {
-                    float strength = float.MinValue(decayCoefficient / (distance * distance), maxAcceleration);
+                    float strength = Mathf.Min(decayCoefficient / (distance * distance), maxAcceleration);
+
+                    direccion.Normalize();
+                    result.lineal += strength * direccion;
                 }
             }
-            // IMPLEMENTAR separación
-            return new ComportamientoDireccion();
+
+            return result;
         }
+        private void OnTriggerEnter(Collider ratColl)
+        {
+            // Se activa el seguimiento de las ratas al contacto con el trigger
+            Merodear ratComp = ratColl.gameObject.GetComponent<Merodear>();
+            if (ratComp != null && !targets.Contains(ratColl.gameObject))
+            {
+                targets.Add(ratColl.gameObject);
+            }
+        }
+
+        private void OnTriggerExit(Collider ratColl)
+        {
+            // Si las ratas salen del trigger, se reactivan sus comportamientos por defecto
+            Merodear ratComp = ratColl.gameObject.GetComponent<Merodear>();
+            if (ratComp != null && targets.Contains(ratColl.gameObject))
+            {
+                targets.Remove(ratColl.gameObject);
+            }
+        }
+
 
         void Start()
         {
             miTransform = transform;
+            maxAcceleration = miTransform.gameObject.GetComponent<Agente>().aceleracionMax;
+
+            trigger = transform.gameObject.AddComponent<SphereCollider>();
+            trigger.isTrigger = true;
+            trigger.enabled = true;
+            trigger.radius = radio;
         }
     }
 }

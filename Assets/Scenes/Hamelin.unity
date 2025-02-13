@@ -3993,6 +3993,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rata
       objectReference: {fileID: 0}
+    - target: {fileID: 5382074391370155027, guid: 5175d5736886518439bf9a2956a122b4,
+        type: 3}
+      propertyPath: distancia
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6537174158311488314, guid: 5175d5736886518439bf9a2956a122b4,
         type: 3}
       propertyPath: m_Enabled
@@ -4782,8 +4787,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radio: 10
-  efectoParticulaSuelo: {fileID: 0}
-  efectoParticulaAire: {fileID: 0}
+  efectoParticulaSuelo: {fileID: 2993916035906271186, guid: a0e6008da080f9542870694a5f0d113e,
+    type: 3}
+  efectoParticulaAire: {fileID: 2993916035906271186, guid: a0e6008da080f9542870694a5f0d113e,
+    type: 3}
 --- !u!1001 &5977170052653439588
 PrefabInstance:
   m_ObjectHideFlags: 0
