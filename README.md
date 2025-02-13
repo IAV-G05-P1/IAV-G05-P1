@@ -15,7 +15,8 @@ Los recursos de terceros utilizados son de uso público.
 
 ## Pseudocódigo (diseño y desarrollo de software)
 
-El problema que se nos presenta a solucionar, es crear diferentes comportamientos para los agentes, ya sea Huir, Merodear o Seguir, que son lo único que hemos visto que haya que implementar realmente en la ploantilla.
+El problema que se nos presenta a solucionar, es crear diferentes comportamientos para los agentes, ya sea Huir, Merodear, Separarse unos de otros o Seguir, que son lo único que hemos visto que haya que implementar realmente en la plantilla.
+También es necesario implementar la Percepción de uno de los agentes, en este caso el Perro, que deberá de seguir al agente del Jugador o huir de las Ratas.
 
 Para ello hemos empezado a desarrollar diferentes ideas, en forma de Pseudocódigo que luego se implementarán en el códico final con posibles cambios.
 
