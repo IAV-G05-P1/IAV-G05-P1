@@ -15,13 +15,15 @@ Los recursos de terceros utilizados son de uso público.
 
 ## Pseudocódigo (diseño y desarrollo de software)
 
-El problema que se nos presenta a solucionar, es crear diferentes comportamientos para los agentes, ya sea Huir, Merodear, Separarse unos de otros o Seguir, que son lo único que hemos visto que haya que implementar realmente en la plantilla.
+El problema que se nos presenta principalmente a solucionar, es crear diferentes comportamientos para los agentes, ya sea Huir de un agente, Merodear, Separarse unos de otros o Seguir a un agente, que son lo único que hemos visto que haya que implementar realmente en la plantilla en cuestión a la IA.
+
 También es necesario implementar la Percepción de uno de los agentes, en este caso el Perro, que deberá de seguir al agente del Jugador o huir de las Ratas.
 
-Para ello hemos empezado a desarrollar diferentes ideas, en forma de Pseudocódigo que luego se implementarán en el códico final con posibles cambios.
+Para ello hemos empezado a desarrollar diferentes ideas, en forma de Pseudocódigo que luego se implementarán en el códico final con posibles cambios. Todas las clases heredarán de ComportamientoAgente, puesto que ahí se gestiona el cómo se están moviendo los agentes y varios parámetros y cosas de la clase los vamos a necesitar.
 
 ### Seguimiento al jugador
- #Clase para modelar el comportamiento de SEGUIR a otro agente
+ #Clase para modelar el comportamiento de SEGUIR a otro agente. En el caso del Perro, este seguirá al jugador si no encuentra a una rata cerca de él, y en el caso de las ratas, cuando oigan la flauta, estas irán tras el jugador hasta que deje de tocar o salgan del rando de audición del sonido de la flauta.
+ La gestión de cuando las ratas oyen o no la flauta viene dentro de la clase TocarFlauta que ya venía implementada.
 
     class Llegada : extends ComportamientoAgente:
 
@@ -70,7 +72,8 @@ Para ello hemos empezado a desarrollar diferentes ideas, en forma de Pseudocódi
 
 ### Comportamiendo del merodeo de las ratas
 
- #Clase para modelar el comportamiento de DEAMBULAR a otro agente
+ #Clase para modelar el comportamiento de DEAMBULAR a otro agente. Pensado para que las ratas, cuando no estén escuchando la música de la flauta, se pongan a deambular por el escenario hasta que oigan la flauta.
+ Como se ha mencionado antes, la gestión de cuando las ratas oyen o no la flauta viene dentro de la clase TocarFlauta que ya venía implementada.
 
     class Merodear : extends ComportamientoAgente
     
@@ -104,7 +107,7 @@ Para ello hemos empezado a desarrollar diferentes ideas, en forma de Pseudocódi
 
 
 ### Comportamiento de huida
- #Clase para modelar el comportamiento de HUIR a otro agente
+ #Clase para modelar el comportamiento de HUIR a otro agente. Pensado para que cuando el Pero esté cerca de alguna Rata, este deje de seguir al jugador y salga corriendo en dirección contraria.
 
     class Huir : extends ComportamientoAgente
 
@@ -122,3 +125,60 @@ Para ello hemos empezado a desarrollar diferentes ideas, en forma de Pseudocódi
         #void Start()
         function Start():
             miTransform = transform
+
+### Separación entre agentes en grupo
+ #Clase para modelar el comportamiento de SEPARACIÓN en un grupo de agentes para que haya un cierto espacio entre estos y no estén pegados. Cuando las ratas están en grupo, estas deben de dejar un espacio entre ellas, para eso sirve esta clase.
+
+    class Separacion : extends ComportamientoAgente
+
+        #Variables públicas
+        targEmpty:GameObject
+        targets:List<GameObject> = new List<GameObject>()
+        distance:float
+        maxAcceleration:float
+        radio:float
+
+        #Variables privadas
+        trigger:SphereCollider
+
+        #variables que se van a editar desde el editor con SerializeField
+        umbral:float
+        decayCoefficient:float
+
+        #Metodos publicos de override
+        function GetComportamientoDireccion() -> ComportamientoDireccion:
+        
+            result:ComportamientoDireccion = new ComportamientoDireccion()
+
+            foreach rat:GameObject in targets:
+                direccion:Vector3 = miTransform.position - rat.transform.position
+                distance = direccion.magnitude
+
+                if distance < umbral:
+                    strength:float = Mathf.Min(decayCoefficient / (distance * distance), maxAcceleration)
+                    direccion.Normalize()
+                    result.lineal = result.lineal + strength * direccion
+            
+            return result
+        
+
+        #Metodos privados
+        function OnTriggerEnter(ratColl:Collider):
+            ratComp:Merodear = ratColl.gameObject.GetComponent<Merodear>()
+            if ratComp != null && !targets.Contains(ratColl.gameObject):
+                targets.Add(ratColl.gameObject)
+
+        function OnTriggerExit(ratColl:Collider):
+            ratComp:Merodear = ratColl.gameObject.GetComponent<Merodear>()
+            if ratComp != null && targets.Contains(ratColl.gameObject):
+                targets.Remove(ratColl.gameObject)
+
+        #void Start()
+        function Start():
+            miTransform = transform
+            maxAcceleration = miTransform.gameObject.GetComponent<Agente>().aceleracionMax
+
+            trigger = transform.gameObject.AddComponent<SphereCollider>()
+            trigger.isTrigger = true
+            trigger.enabled = true
+            trigger.radius = radio
