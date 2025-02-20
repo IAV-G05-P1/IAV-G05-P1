@@ -13,6 +13,12 @@ Los recursos de terceros utilizados son de uso público.
 * [Kaykit Dungeon](https://kaylousberg.itch.io/kaykit-dungeon)
 * [Kaykit Animations](https://kaylousberg.itch.io/kaykit-animations)
 
+## Vídeo demostración
+
+Enlace al vídeo: https://youtu.be/n0-HJltP3_U
+
+La capturadora no captó el sonido, así que aclaramos que cuando el flautista toca la flauta se escucha el instrumento
+
 ## Pseudocódigo (diseño y desarrollo de software)
 
 El problema que se nos presenta principalmente a solucionar, es crear diferentes comportamientos para los agentes, ya sea Huir de un agente, Merodear, Separarse unos de otros o Seguir a un agente, que son lo único que hemos visto que haya que implementar realmente en la plantilla en cuestión a la IA.
